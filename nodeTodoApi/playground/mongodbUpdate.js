@@ -1,17 +1,16 @@
-const MongoClient = require("mongodb").MongoClient;
-MongoClient.connect("mongodb://localhost:27017/TodoApp", (err, db) => {
+const { MongoClient, ObjectID } = require('mongodb');
+
+MongoClient.connect('mongodb://localhost:27017/TodoApp', (err, db) => {
+  //MongoClient.connect("mongodb://lacalhost:20147/TodoApp", (err, db) => {
   if (err) {
-    return console.log("
-    cannot connect to mongodb server");
+    return console.log('connectionc cannot be made with mongodb');
   }
-  console.log("connection made");
+  console.log('connnected to mongodb server');
 
   db
-    .collection("Todos")
+    .collection('Todos')
     .findOneAndUpdate(
-      {
-        text: "Something to do"
-      },
+      { _id: new ObjectID('5a575feb2bcb2938dc095acf') },
       {
         $set: {
           completed: false

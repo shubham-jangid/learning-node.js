@@ -1,40 +1,19 @@
-const mongoose = require('mongoose');
+//importing the library modules
+var express = require('express');
+var bodyParser = require('body-parser');
 
-mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/TodoApp');
+// importing the local modules
+var { mongoose } = require('./db/mongoose');
+var { Users } = require('./models/user');
+var { Todo } = require('./models/Todo');
 
-var Todo = mongoose.model('Todo', {
-  text: {
-    type: String,
-    required: true,
-    min: 1,
-    trim: true
-  },
-  completed: {
-    type: Boolean,
-    default: false
-  },
-  completedAt: {
-    type: Number,
-    default: null
-  }
+var app = express();
+app.use(bodyParser.json());
+
+app.post('/todos', (req, res) => {
+  console.log(req.body);
 });
 
-// var newTodo = new Todo({
-//   text: 'cook dinner'
-// });
-
-var newTodo = new Todo({
-  text: 'eat dinner',
-  completed: true,
-  completedAt: 20.25
+app.listen(3000, () => {
+  console.log('on port 3000');
 });
-
-newTodo.save().then(
-  docs => {
-    console.log(`saved data is : ${docs}`);
-  },
-  err => {
-    console.log('cannot add data to server');
-  }
-);

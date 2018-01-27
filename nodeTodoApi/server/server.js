@@ -110,18 +110,21 @@ app.patch('/todos/:id', (req, res) => {
     });
 });
 
-//-------- post users-----------
+//-------- post users/signup -----------
 
 app.post('/users', (req, res) => {
   var body = _.pick(req.body, ['email', 'password']);
   var user = new User(body);
   user
     .save()
-    .then(user => {
-      res.send(user);
+    .then(() => {
+      //res.send(user);
+      return user.generateAuthToken();
+    })
+    .then(() => {
+      res.header('x-auth', token).send(user);
     })
     .catch(err => {
-      console.log(err);
       return res.status(404).send(err);
     });
 });

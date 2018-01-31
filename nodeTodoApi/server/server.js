@@ -8,6 +8,7 @@ var _ = require('lodash');
 var { mongoose } = require('./db/mongoose');
 var { User } = require('./models/user');
 var { Todo } = require('./models/Todo');
+var { authenticate } = require('./middleware/authenticate');
 
 var app = express();
 app.use(bodyParser.json());
@@ -127,6 +128,12 @@ app.post('/users', (req, res) => {
     .catch(err => {
       return res.status(404).send(err);
     });
+});
+
+// private routes------
+
+app.get('/users/me', authenticate, (req, res) => {
+  res.send(req.user);
 });
 
 //-------listening to port--------
